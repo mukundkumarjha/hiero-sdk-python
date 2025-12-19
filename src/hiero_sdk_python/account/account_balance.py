@@ -69,10 +69,10 @@ class AccountBalance:
 
     def __repr__(self) -> str:
         """
-        Returns a developer-friendly string representation of the account balance.
+        Provide a developer-friendly string representation of the account balance.
         
         Returns:
-            str: A string representation that shows the key attributes.
+            str: A string in the form "AccountBalance(hbars=<Hbar repr>, token_balances={<TokenId repr>: <balance>, ...})".
         """
         token_balances_repr = (
             f"{{{', '.join(f'{token_id!r}: {balance}' for token_id, balance in self.token_balances.items())}}}"
@@ -83,9 +83,24 @@ class AccountBalance:
 
 
 def getBalance(id):
+    """
+    Retrieve the account balance for the given account identifier.
+    
+    Parameters:
+        id: The account identifier (for example an AccountId object or a string) whose HBAR and token balances should be fetched.
+    
+    Returns:
+        AccountBalance: An AccountBalance object containing the account's HBAR balance and token balances.
+    """
     print(hello)
     return None
 
 
 def whynot():
+    """
+    Return the literal string "whynot".
+    
+    Returns:
+        str: The string "whynot".
+    """
     return "whynot"
