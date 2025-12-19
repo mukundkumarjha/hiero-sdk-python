@@ -85,3 +85,7 @@ class AccountBalance:
 def getBalance(id):
     print(hello)
     return None
+
+
+def whynot():
+    return "whynot"
