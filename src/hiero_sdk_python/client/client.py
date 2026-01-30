@@ -103,7 +103,7 @@ class Client:
         return client
 
     @classmethod
-    def for_testnet(cls) -> "Client":
+    def for_testnet(cls, network: Optional[NetworkName] = None) -> "Client":
         """
         Create a Client configured for Hedera Testnet.
         
@@ -112,6 +112,32 @@ class Client:
         Returns:
             Client: A Client instance configured for testnet.
         """
+        load_dotenv()
+        
+        if network:
+            network_name = network
+        else:
+            network_name = os.getenv('NETWORK') or 'testnet'
+
+        network_name = network_name.lower()
+        
+        try:
+            client = cls(Network(network_name))
+        except ValueError:
+            raise ValueError(f"Invalid network name: {network_name}")
+
+        operator_id_str = os.getenv("OPERATOR_ID")
+        operator_key_str = os.getenv("OPERATOR_KEY")
+
+        if not operator_id_str:
+            raise ValueError("OPERATOR_ID environment variable is required for Client.from_env()")
+        if not operator_key_str:
+            raise ValueError("OPERATOR_KEY environment variable is required for Client.from_env()")
+
+        operator_id = AccountId.from_string(operator_id_str)
+        operator_key = PrivateKey.from_string(operator_key_str)
+
+        client.set_operator(operator_id, operator_key)
         return cls(Network("testnet"))
 
     @classmethod
